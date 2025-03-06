@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { registerUser } from './actions';
+import Link from 'next/link';
 
 
 const formSchema = z.object({
@@ -30,56 +31,86 @@ export default function Register() {
   })
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    const response = await registerUser({ email: data.email, password: data.password, passwordConfirm: data.passwordConfirm })
-    console.log(response)
+    const response = await registerUser({
+      email: data.email,
+      password: data.password,
+      passwordConfirm: data.passwordConfirm
+    })
+
+    if (response?.error) {
+      form.setError('email', {
+        message: response.message
+      })
+    }
   }
 
   return (
     <main className="flex items-center justify-center h-screen">
-      <Card className='w-[360px]'>
-        <CardHeader>
-          <CardTitle>Register</CardTitle>
-          <CardDescription>Register for a New Account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {/* below we're spreading props from the form component we declared above */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className='flex flex-col gap-2'>
-              {/* control prop controls validation */}
-              <FormField control={form.control} name='email' render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} type='email' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-              <FormField control={form.control} name='password' render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type='password' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-              <FormField control={form.control} name='passwordConfirm' render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type='password' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-              <Button type='submit'>
-                Register
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </main>
+      {form.formState.isSubmitSuccessful ? (
+        <Card className='w-[360px]'>
+          <CardHeader>
+            <CardTitle className='text-center'>Your account has been created.</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {/* asChild applies styles to child component */}
+            <Button asChild className='w-full'>
+              <Link href='/login'>
+                Login
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      ) :
+        <Card className='w-[360px]'>
+          <CardHeader>
+            <CardTitle>Register</CardTitle>
+            <CardDescription>Register for a New Account</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* below we're spreading props from the form component we declared above */}
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className='flex flex-col gap-2'>
+                {/* control prop controls validation */}
+                <fieldset
+                  disabled={form.formState.isSubmitting}
+                  className='flex flex-col gap-2'
+                >
+                  <FormField control={form.control} name='email' render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input {...field} type='email' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name='password' render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input {...field} type='password' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name='passwordConfirm' render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input {...field} type='password' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <Button type='submit'>
+                    Register
+                  </Button>
+                </fieldset>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      }
+    </main >
   )
 }
