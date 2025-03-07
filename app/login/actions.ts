@@ -31,5 +31,10 @@ export const loginWithCredentials = async ({ email, password }: {
       password,
       redirect: false
     })
-  } catch (error: any) { }
+  } catch (error: any) {
+    return {
+      error: true,
+      message: "Incorrect email or password"
+    }
+  }
 }

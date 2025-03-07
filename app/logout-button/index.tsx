@@ -8,7 +8,7 @@ import { logout } from './actions'
 export default function LogoutButton() {
   return (
     <Button
-      style={{ cursor: "pointer" }}
+      // style={{ cursor: "pointer" }}
       size='sm'
       onClick={async () => {
         await logout()

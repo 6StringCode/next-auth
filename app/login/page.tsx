@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,7 +37,9 @@ export default function Login() {
     })
 
     if (response?.error) {
-
+      form.setError('root', {
+        message: response.message
+      })
     } else {
       router.push('/my-account')
     }
@@ -79,6 +81,11 @@ export default function Login() {
                     <FormMessage />
                   </FormItem>
                 )} />
+                {!!form.formState.errors.root?.message &&
+                  <FormMessage>
+                    {form.formState.errors.root.message}
+                  </FormMessage>
+                }
                 <Button type='submit'>
                   Login
                 </Button>
@@ -86,6 +93,14 @@ export default function Login() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className='flex-col gap-2'>
+          <div className='text-muted-foreground text-sm'>
+            Don&apos;t have an account? {' '}<Link href='/register' className='underline'>Register</Link>
+          </div>
+          <div className='text-muted-foreground text-sm'>
+            Forgot Password? <Link href='/password-reset' className='underline'>Reset My Password</Link>
+          </div>
+        </CardFooter>
       </Card>
 
     </main>
