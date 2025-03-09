@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { auth } from '@/auth';
-import LogoutButton from './logout-button';
+import LogoutButton from './(logged-in)/logout-button';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,18 +25,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth()
+  //just for testing
+  // const session = await auth()
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div>{session?.user?.email ? <div>
+        {/* <div>{session?.user?.email ? <div>
           {session.user.email}
           <LogoutButton />
         </div> : "No currently logged in user"}
-        </div>
+        </div> */}
         {children}
       </body>
     </html>
