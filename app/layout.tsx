@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { auth } from '@/auth';
 import LogoutButton from './(logged-in)/logout-button';
+import { Toaster } from 'sonner';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,9 +37,10 @@ export default async function RootLayout({
         {/* <div>{session?.user?.email ? <div>
           {session.user.email}
           <LogoutButton />
-        </div> : "No currently logged in user"}
-        </div> */}
+          </div> : "No currently logged in user"}
+          </div> */}
         {children}
+        <Toaster richColors />
       </body>
     </html>
   );
