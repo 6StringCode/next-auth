@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { auth } from '@/auth';
-import LogoutButton from './(logged-in)/logout-button';
+// import { auth } from '@/auth';
+// import LogoutButton from './(logged-in)/logout-button';
 import { Toaster } from 'sonner';
 
 const geistSans = localFont({

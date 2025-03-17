@@ -45,6 +45,8 @@ export default function Login() {
     }
   }
 
+  const email = form.getValues('email')
+
   return (
     <main className="flex items-center justify-center h-screen">
       <Card className='w-[360px]'>
@@ -98,7 +100,8 @@ export default function Login() {
             Don&apos;t have an account? {' '}<Link href='/register' className='underline'>Register</Link>
           </div>
           <div className='text-muted-foreground text-sm'>
-            Forgot Password? <Link href='/password-reset' className='underline'>Reset My Password</Link>
+            Forgot Password?{' '}
+            <Link href={`/password-reset${email ? `?email=${encodeURIComponent(email)}` : ""}`} className='underline'>Reset My Password</Link>
           </div>
         </CardFooter>
       </Card>
